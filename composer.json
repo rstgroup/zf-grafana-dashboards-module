@@ -1,0 +1,26 @@
+{
+    "name": "rstgroup/zf-grafana-module",
+    "description": "Integration with Grafana API.",
+    "authors": [
+        {
+            "name": "Artur Wolny",
+            "email": "artur.wolny@rst.com.pl"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "RstGroup\\ZfGrafanaModule\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RstGroup\\ZfGrafanaModule\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^5.6 || ^7",
+        "zendframework/zend-mvc-console": "^1.1"
+    }
+}
