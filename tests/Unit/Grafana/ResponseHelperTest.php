@@ -7,6 +7,8 @@ namespace RstGroup\ZfGrafanaModule\Tests\Unit\Grafana;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use RstGroup\ZfGrafanaModule\Dashboard\Dashboard;
+use RstGroup\ZfGrafanaModule\Dashboard\DashboardDefinition;
+use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardAccessDenied;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardAlreadyExists;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardNotFound;
@@ -88,5 +90,25 @@ class ResponseHelperTest extends TestCase
                 "Grafana service not available"
             ],
         ];
+    }
+
+    public function testItReturnsCreatedDashboard()
+    {
+        // given: dashboard definition to save
+        $sourceDashboard = new Dashboard(new DashboardDefinition('{"title":"My dashboard"}'));
+
+        // given: API response
+        $response = new Response(200, [], '{"status":"success","version":1,"slug":"my-dashboard"}');
+
+        // when
+        $savedDashboard = $this->helper->parseResponseForCreatingDashboard($response, $sourceDashboard);
+
+        // then
+        $this->assertInstanceOf(Dashboard::class, $savedDashboard);
+
+        $this->assertInstanceOf(DashboardSlug::class, $savedDashboard->getSlug());
+        $this->assertSame('my-dashboard', $savedDashboard->getSlug()->getSlug());
+
+        $this->assertSame(1, $savedDashboard->getDefinition()->getDecodedDefinition()['version']);
     }
 }

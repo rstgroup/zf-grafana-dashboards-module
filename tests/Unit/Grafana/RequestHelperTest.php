@@ -57,8 +57,8 @@ class RequestHelperTest extends TestCase
     {
         // given: dashboard
         $dashboard = new Dashboard(
-            new DashboardSlug('dash'),
-            new DashboardDefinition('{"id":null,"title":"Test dashboard"}')
+            new DashboardDefinition('{"id":null,"title":"Test dashboard"}'),
+            new DashboardSlug('dash')
         );
 
         // when: request is created

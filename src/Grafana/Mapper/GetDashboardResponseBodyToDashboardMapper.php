@@ -10,7 +10,7 @@ use RstGroup\ZfGrafanaModule\Dashboard\DashboardDefinition;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 
-final class GetDashboardResponseBodyMapper
+final class GetDashboardResponseBodyToDashboardMapper
 {
     /**
      * @param ResponseInterface $response
@@ -31,6 +31,6 @@ final class GetDashboardResponseBodyMapper
             )
         );
 
-        return new Dashboard($slug, $definition, $id);
+        return new Dashboard($definition, $slug, $id);
     }
 }

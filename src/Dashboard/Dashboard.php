@@ -14,33 +14,34 @@ final class Dashboard
     private $id;
 
     /**
-     * @param DashboardSlug       $slug
      * @param DashboardDefinition $definition
+     * @param null|DashboardSlug  $slug
      * @param null|DashboardId    $id
      */
-    public function __construct(DashboardSlug $slug, DashboardDefinition $definition, DashboardId $id = null)
+    public function __construct(DashboardDefinition $definition, DashboardSlug $slug = null, DashboardId $id = null)
     {
-        $this->slug       = $slug;
         $this->definition = $definition;
+        $this->slug       = $slug;
         $this->id         = $id;
     }
 
     /**
-     * @param Dashboard   $dashboard
-     * @param DashboardId $id
+     * @param Dashboard     $dashboard
+     * @param DashboardSlug $slug
+     * @param DashboardId   $id
      * @return Dashboard
      */
-    public static function fromSavedDashboard(Dashboard $dashboard, DashboardId $id)
+    public static function fromSavedDashboard(Dashboard $dashboard, DashboardSlug $slug, DashboardId $id)
     {
         return new Dashboard(
-            $dashboard->getSlug(),
             $dashboard->getDefinition(),
-            $dashboard->getId()
+            $slug,
+            $id
         );
     }
 
     /**
-     * @return DashboardSlug
+     * @return DashboardSlug|null
      */
     public function getSlug()
     {
