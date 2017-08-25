@@ -9,7 +9,8 @@ interface DashboardRepository
     public function save(Dashboard $dashboard);
 
     /**
+     * @param DashboardId $id
      * @return Dashboard
      */
-    public function load();
+    public function load(DashboardId $id);
 }

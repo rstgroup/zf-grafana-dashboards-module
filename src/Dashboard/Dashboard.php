@@ -8,7 +8,7 @@ final class Dashboard
 {
     /** @var DashboardSlug */
     private $slug;
-    /** @var  DashboardDefinition */
+    /** @var DashboardDefinition */
     private $definition;
     /** @var  DashboardId|null */
     private $id;
