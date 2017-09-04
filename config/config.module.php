@@ -27,6 +27,7 @@ return [
             \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class                     => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class               => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class => \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProviderFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class                        => \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::class,
         ],
         'aliases'   => [
             \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class  => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
