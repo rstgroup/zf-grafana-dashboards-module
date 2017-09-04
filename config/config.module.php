@@ -3,24 +3,34 @@
 return [
     'console'              => [
         'router' => [
-            // ...
+            'routes' => [
+                'migrate-dashboards' => [
+                    'options' => [
+                        'route' => 'grafana migrate',
+                        'defaults' => [
+                            'controller' => \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsController::class,
+                            'action'     => 'migrate',
+                        ],
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers'          => [
         'factories' => [
-            \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsController::class      => \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsControllerFactory::class,
-            \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class             => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepositoryFactory::class,
-            \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapperFactory::class,
-            \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class            => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
-        ],
-        'aliases'   => [
-            \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class         => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
-            \RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdToGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class,
+            \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsController::class => \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsControllerFactory::class,
         ],
     ],
     'service-manager'      => [
         'factories' => [
-            \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class             => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepositoryFactory::class,
+            \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapperFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class            => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class      => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
+        ],
+        'aliases'   => [
+            \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class         => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
+            \RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdToGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class,
         ],
     ],
     'dashboard-migrations' => [
@@ -38,7 +48,6 @@ return [
                 'api-key' => null,
             ],
         ],
-
         'source-repository' => [
             'service' => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class,
         ],
