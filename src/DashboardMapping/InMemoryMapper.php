@@ -9,21 +9,17 @@ use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 /**
  * This mapper can be used for manual mapping (if dashboards already exists in Grafana).
  */
-final class InMemoryMapper implements DashboardIdRepoToRepoMapper, DashboardIdToGrafanaIdMapper
+final class InMemoryMapper implements DashboardIdRepoToRepoMapper
 {
     /** @var DashboardId[] */
     private $idToIdMapping;
-    /** @var int[] */
-    private $idToGrafanaIdMapping;
 
     /**
      * @param DashboardId[] $idToIdMapping
-     * @param \int[]        $idToGrafanaIdMapping
      */
-    public function __construct(array $idToIdMapping, array $idToGrafanaIdMapping)
+    public function __construct(array $idToIdMapping)
     {
         $this->idToIdMapping        = $idToIdMapping;
-        $this->idToGrafanaIdMapping = $idToGrafanaIdMapping;
     }
 
     /**
@@ -33,15 +29,6 @@ final class InMemoryMapper implements DashboardIdRepoToRepoMapper, DashboardIdTo
     public function mapToId(DashboardId $id)
     {
         return $this->findMapping($this->idToIdMapping, $id);
-    }
-
-    /**
-     * @param DashboardId $id
-     * @return int|null
-     */
-    public function mapToGrafanaId(DashboardId $id)
-    {
-        return $this->findMapping($this->idToGrafanaIdMapping, $id);
     }
 
     /**

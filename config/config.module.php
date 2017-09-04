@@ -24,13 +24,11 @@ return [
     'service-manager'      => [
         'factories' => [
             \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class             => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepositoryFactory::class,
-            \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapperFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class            => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class      => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
         ],
         'aliases'   => [
             \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class         => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
-            \RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdToGrafanaIdMapper::class => \RstGroup\ZfGrafanaModule\DashboardMapping\MetadataBasedGrafanaIdMapper::class,
         ],
     ],
     'dashboard-migrations' => [

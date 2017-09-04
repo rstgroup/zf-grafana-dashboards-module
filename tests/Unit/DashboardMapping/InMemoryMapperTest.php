@@ -26,21 +26,4 @@ class InMemoryMapperTest extends TestCase
         // then
         $this->assertSame($mappedTo, $mapped);
     }
-
-    public function testItCanMapDashboardIdToGrafanaId()
-    {
-        $mappedFrom = new DashboardSlug('abc');
-        $mappedTo = 456;
-
-        // given: initialized mapper
-        $mapper = new InMemoryMapper([], [
-            $mappedFrom->getId() => $mappedTo,
-        ]);
-
-        // when
-        $mapped = $mapper->mapToGrafanaId($mappedFrom);
-
-        // then
-        $this->assertSame($mappedTo, $mapped);
-    }
 }
