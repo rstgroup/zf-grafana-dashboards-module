@@ -21,7 +21,7 @@ final class FilesystemDirectoryRepositoryFactory
 
         // make sure config has required keys
         Assert::isArray($config);
-        Assert::keyExists($config, 'path', sprintf('Missing \%s param in %s configuration', FilesystemDirectoryRepository::class));
+        Assert::keyExists($config, 'path', sprintf('Missing %%s param in %s configuration', FilesystemDirectoryRepository::class));
 
         return new FilesystemDirectoryRepository($config['path']);
     }
