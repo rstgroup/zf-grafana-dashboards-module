@@ -8,7 +8,7 @@ use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 use RstGroup\ZfGrafanaModule\Dashboard\InnerId\DashboardFilename;
 use Webmozart\Assert\Assert;
 
-final class DirectoryListingProvider implements DashboardIdsProvider
+final class DirectoryListingDashboardIdsProvider implements DashboardIdsProvider
 {
     private $directory;
 
