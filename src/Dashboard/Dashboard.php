@@ -4,10 +4,10 @@
 namespace RstGroup\ZfGrafanaModule\Dashboard;
 
 
+use Webmozart\Assert\Assert;
+
 final class Dashboard
 {
-    /** @var DashboardSlug */
-    private $slug;
     /** @var DashboardDefinition */
     private $definition;
     /** @var  DashboardId|null */
@@ -15,37 +15,12 @@ final class Dashboard
 
     /**
      * @param DashboardDefinition $definition
-     * @param null|DashboardSlug  $slug
      * @param null|DashboardId    $id
      */
-    public function __construct(DashboardDefinition $definition, DashboardSlug $slug = null, DashboardId $id = null)
+    public function __construct(DashboardDefinition $definition, DashboardId $id = null)
     {
         $this->definition = $definition;
-        $this->slug       = $slug;
         $this->id         = $id;
-    }
-
-    /**
-     * @param Dashboard     $dashboard
-     * @param DashboardSlug $slug
-     * @param DashboardId   $id
-     * @return Dashboard
-     */
-    public static function fromSavedDashboard(Dashboard $dashboard, DashboardSlug $slug, DashboardId $id)
-    {
-        return new Dashboard(
-            $dashboard->getDefinition(),
-            $slug,
-            $id
-        );
-    }
-
-    /**
-     * @return DashboardSlug|null
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**
@@ -62,5 +37,19 @@ final class Dashboard
     public function getId()
     {
         return $this->id;
+    }
+
+    public function isEqual(self $dashB)
+    {
+        try {
+            // make sure ID's are the same
+            Assert::eq($this->getId(), $dashB->getId());
+
+            // make sure definitions are the same - with exceptions :)
+            return $this->getDefinition()->isEqual($dashB->getDefinition());
+
+        } catch (\InvalidArgumentException $ex) {
+            return false;
+        }
     }
 }

@@ -3,29 +3,17 @@
 
 namespace RstGroup\ZfGrafanaModule\Dashboard;
 
-
-final class DashboardId
+/**
+ * This ID is not a part of Dashboard in Grafana API, it's an identifier used by your app to distinguish
+ * between dashboard definitions.
+ */
+interface DashboardId
 {
-    /** @var int */
-    private $id;
+    /** @return string */
+    public function getId();
 
     /**
-     * @param int $id
+     * @param string $id
      */
-    public function __construct($id)
-    {
-        if (!is_int($id) || $id < 1) {
-            throw new \InvalidArgumentException("Given value is not a positive integer.");
-        }
-
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function __construct($id);
 }

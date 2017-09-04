@@ -8,7 +8,6 @@ use Http\Message\RequestFactory;
 use RstGroup\ZfGrafanaModule\Dashboard\Dashboard;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 use Psr\Http\Message\RequestInterface;
-use RstGroup\ZfGrafanaModule\Grafana\Mapper\DashboardToRequestBodyMapper;
 
 class RequestHelper
 {
@@ -41,7 +40,7 @@ class RequestHelper
     {
         return $this->requestFactory->createRequest(
             'GET',
-            $this->grafanaApiBaseUri . '/dashboards/db/' . $slug->getSlug(),
+            $this->grafanaApiBaseUri . '/dashboards/db/' . $slug->getId(),
             array_replace([], $this->getAuthorizationHeaders())
         );
     }
@@ -50,7 +49,7 @@ class RequestHelper
      * @param Dashboard $dashboard
      * @return RequestInterface
      */
-    public function createCreateDashboardRequest(Dashboard $dashboard)
+    public function createCreateOrUpdateDashboardRequest(Dashboard $dashboard)
     {
         return $this->requestFactory->createRequest(
             'POST',
@@ -62,7 +61,9 @@ class RequestHelper
                 ],
                 $this->getAuthorizationHeaders()
             ),
-            json_encode(DashboardToRequestBodyMapper::map($dashboard))
+            json_encode([
+                'dashboard' => $dashboard->getDefinition()->getDecodedDefinition()
+            ])
         );
     }
 
@@ -74,7 +75,7 @@ class RequestHelper
     {
         return $this->requestFactory->createRequest(
             'DELETE',
-            $this->grafanaApiBaseUri . '/dashboards/db/' . $slug->getSlug(),
+            $this->grafanaApiBaseUri . '/dashboards/db/' . $slug->getId(),
             array_replace(['Accept' => 'application/json'], $this->getAuthorizationHeaders())
         );
     }

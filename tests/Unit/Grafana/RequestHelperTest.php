@@ -62,7 +62,7 @@ class RequestHelperTest extends TestCase
         );
 
         // when: request is created
-        $request = $this->grafanaHelper->createCreateDashboardRequest($dashboard);
+        $request = $this->grafanaHelper->createCreateOrUpdateDashboardRequest($dashboard);
 
         // then: request is created
         $this->assertInstanceOf(RequestInterface::class, $request);
@@ -72,6 +72,34 @@ class RequestHelperTest extends TestCase
         $this->assertSame('http://grafana/api/dashboards/db', (string)$request->getUri());
         $this->assertArraySubset(
             ['dashboard' => ['id' => null, 'title' => 'Test dashboard']],
+            json_decode((string)$request->getBody(), true)
+        );
+
+        // then: request has set headers:
+        $this->assertContains('application/json', $request->getHeader('Content-Type'));
+        $this->assertContains('application/json', $request->getHeader('Accept'));
+        $this->assertAuthorization($this->grafanaApiKey, $request);
+    }
+
+    public function testItCreatesRequestForUpdatingDashboard()
+    {
+        // given: dashboard
+        $dashboard = new Dashboard(
+            new DashboardDefinition('{"id":22,"title":"Test dashboard"}'),
+            new DashboardSlug('dash')
+        );
+
+        // when: request is created
+        $request = $this->grafanaHelper->createCreateOrUpdateDashboardRequest($dashboard);
+
+        // then: request is created
+        $this->assertInstanceOf(RequestInterface::class, $request);
+
+        // then: request has crucial parameters
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertSame('http://grafana/api/dashboards/db', (string)$request->getUri());
+        $this->assertArraySubset(
+            ['dashboard' => ['id' => 22, 'title' => 'Test dashboard']],
             json_decode((string)$request->getBody(), true)
         );
 

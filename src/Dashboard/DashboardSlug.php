@@ -3,7 +3,7 @@
 
 namespace RstGroup\ZfGrafanaModule\Dashboard;
 
-final class DashboardSlug
+final class DashboardSlug implements DashboardId
 {
     /** @var string */
     private $slug;
@@ -20,16 +20,14 @@ final class DashboardSlug
         $this->slug = $slug;
     }
 
-    /**
-     * @return string
-     */
-    public function getSlug()
+    public function __toString()
     {
         return $this->slug;
     }
 
-    public function __toString()
+    /** @return string */
+    public function getId()
     {
-        return $this->getSlug();
+        return $this->slug;
     }
 }

@@ -5,7 +5,6 @@ namespace RstGroup\ZfGrafanaModule\Grafana\Mapper;
 
 
 use Psr\Http\Message\ResponseInterface;
-use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 use Webmozart\Assert\Assert;
 

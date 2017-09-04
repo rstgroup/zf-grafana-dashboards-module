@@ -13,6 +13,7 @@ use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardAccessDenied;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardAlreadyExists;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\DashboardNotFound;
 use RstGroup\ZfGrafanaModule\Grafana\Exception\GrafanaServerError;
+use RstGroup\ZfGrafanaModule\Grafana\Exception\InvalidApiRequest;
 use RstGroup\ZfGrafanaModule\Grafana\ResponseHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -43,10 +44,10 @@ class ResponseHelperTest extends TestCase
 
         // then: the instance has values fetched from Response
         $this->assertEquals(
-            ['title' => 'Test title', 'tags' => ['templated'], 'timezone' => 'browser', 'rows' => [], 'schemaVersion' => 6, 'version' => 0],
+            ['id' => 123, 'title' => 'Test title', 'tags' => ['templated'], 'timezone' => 'browser', 'rows' => [], 'schemaVersion' => 6, 'version' => 0],
             $dashboard->getDefinition()->getDecodedDefinition()
         );
-        $this->assertSame(123, $dashboard->getId()->getId());
+        $this->assertSame('test-title', $dashboard->getId()->getId());
     }
 
     /**
@@ -89,6 +90,16 @@ class ResponseHelperTest extends TestCase
                 GrafanaServerError::class,
                 "Grafana service not available"
             ],
+            [
+                new Response(400, ['Content-Type' => 'application/json'], '{"message":"Unknown request error"}'),
+                InvalidApiRequest::class,
+                "Unknown request error"
+            ],
+            [
+                new Response(400, ['Content-Type' => 'application/json'], ''),
+                InvalidApiRequest::class,
+                ""
+            ],
         ];
     }
 
@@ -106,8 +117,8 @@ class ResponseHelperTest extends TestCase
         // then
         $this->assertInstanceOf(Dashboard::class, $savedDashboard);
 
-        $this->assertInstanceOf(DashboardSlug::class, $savedDashboard->getSlug());
-        $this->assertSame('my-dashboard', $savedDashboard->getSlug()->getSlug());
+        $this->assertInstanceOf(DashboardSlug::class, $savedDashboard->getId());
+        $this->assertSame('my-dashboard', $savedDashboard->getId()->getId());
 
         $this->assertSame(1, $savedDashboard->getDefinition()->getDecodedDefinition()['version']);
     }

@@ -4,7 +4,7 @@
 namespace RstGroup\ZfGrafanaModule\Grafana\Exception;
 
 
-class DashboardAlreadyExists extends \RuntimeException
+class DashboardAlreadyExists extends GrafanaGeneralException
 {
 
 }

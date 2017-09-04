@@ -4,6 +4,8 @@
 namespace RstGroup\ZfGrafanaModule\Dashboard;
 
 
+use Webmozart\Assert\Assert;
+
 final class DashboardDefinition
 {
     /** @var string */
@@ -41,6 +43,22 @@ final class DashboardDefinition
     }
 
     /**
+     * @param DashboardMetadata $metadata
+     * @return DashboardDefinition
+     */
+    public function withMetadata(DashboardMetadata $metadata)
+    {
+        return self::createFromArray(array_replace(
+            $this->decodedDefinition,
+            [
+                'id'            => $metadata->getGrafanaId(),
+                'version'       => $metadata->getVersion(),
+                'schemaVersion' => $metadata->getSchemaVersion(),
+            ]
+        ));
+    }
+
+    /**
      * @return string
      */
     public function getDefinition()
@@ -62,5 +80,29 @@ final class DashboardDefinition
     public function __toString()
     {
         return $this->getDefinition();
+    }
+
+    /**
+     * @param self $otherDefinition
+     * @return bool
+     */
+    public function isEqual(self $otherDefinition)
+    {
+        try {
+            Assert::eq(
+                array_diff_key(
+                    $this->decodedDefinition,
+                    ['id' => null, 'version' => null, 'schemaVersion' => null,]
+                ),
+                array_diff_key(
+                    $otherDefinition->decodedDefinition,
+                    ['id' => null, 'version' => null, 'schemaVersion' => null,]
+                )
+            );
+
+            return true;
+        } catch (\InvalidArgumentException $exception) {
+            return false;
+        }
     }
 }

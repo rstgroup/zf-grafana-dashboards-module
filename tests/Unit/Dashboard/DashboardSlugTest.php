@@ -19,7 +19,7 @@ class DashboardSlugTest extends TestCase
         $dashboardId = new DashboardSlug($identifier);
 
         // then
-        $this->assertSame($identifier, $dashboardId->getSlug());
+        $this->assertSame($identifier, $dashboardId->getId());
     }
 
     public function alphanumericIdsProvider()
