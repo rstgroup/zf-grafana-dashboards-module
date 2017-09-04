@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<phpunit
+    bootstrap="vendor/autoload.php"
+>
+    <testsuites>
+        <testsuite name="Grafana Module Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
