@@ -21,7 +21,7 @@ return [
             \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsController::class => \RstGroup\ZfGrafanaModule\Controller\DashboardMigrationsControllerFactory::class,
         ],
     ],
-    'service-manager'      => [
+    'service_manager'      => [
         'factories' => [
             \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class                      => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class                     => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
