@@ -3,8 +3,6 @@
 
 namespace RstGroup\ZfGrafanaModule\Repository;
 
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
 use Psr\Container\ContainerInterface;
 use RstGroup\ZfGrafanaModule\DashboardMapping\DashboardToDashboardMapper;
 use RstGroup\ZfGrafanaModule\Grafana\RequestHelper;
@@ -14,6 +12,9 @@ use Webmozart\Assert\Assert;
 /** @codeCoverageIgnore */
 final class GrafanaApiRepositoryFactory
 {
+    const HTTP_CLIENT_SERVICE = 'GrafanaApiRepository_HttpClient';
+    const REQUEST_FACTORY_SERVICE = 'GrafanaApiRepository_RequestFactory';
+
     public function __invoke(ContainerInterface $container)
     {
         // make sure config exists
@@ -30,9 +31,9 @@ final class GrafanaApiRepositoryFactory
         Assert::keyExists($config, 'api-key', sprintf('Missing %%s param in %s configuration', GrafanaApiRepository::class));
 
         return new GrafanaApiRepository(
-            $container->get(HttpClient::class),
+            $container->get(self::HTTP_CLIENT_SERVICE),
             new RequestHelper(
-                $container->get(RequestFactory::class),
+                $container->get(self::REQUEST_FACTORY_SERVICE),
                 $config['url'],
                 $config['api-key']
             ),
