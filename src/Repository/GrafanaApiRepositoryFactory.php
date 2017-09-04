@@ -26,8 +26,8 @@ final class GrafanaApiRepositoryFactory
 
         // make sure config has required keys
         Assert::isArray($config);
-        Assert::keyExists($config, 'url', sprintf('Missing \%s param in %s configuration', GrafanaApiRepository::class));
-        Assert::keyExists($config, 'api-key', sprintf('Missing \%s param in %s configuration', GrafanaApiRepository::class));
+        Assert::keyExists($config, 'url', sprintf('Missing %%s param in %s configuration', GrafanaApiRepository::class));
+        Assert::keyExists($config, 'api-key', sprintf('Missing %%s param in %s configuration', GrafanaApiRepository::class));
 
         return new GrafanaApiRepository(
             $container->get(HttpClient::class),
