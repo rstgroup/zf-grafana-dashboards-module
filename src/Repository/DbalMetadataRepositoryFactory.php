@@ -3,7 +3,6 @@
 
 namespace RstGroup\ZfGrafanaModule\Repository;
 
-use Doctrine\DBAL\Driver\Connection;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
@@ -12,6 +11,8 @@ use Webmozart\Assert\Assert;
  */
 final class DbalMetadataRepositoryFactory
 {
+    const SERVICE_CONNECTION = 'DbalMetadataRepository_Connection';
+
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->get('config')['dashboard-migrations']['metadata-repositories'][DbalMetadataRepository::class];
@@ -19,7 +20,7 @@ final class DbalMetadataRepositoryFactory
         Assert::keyExists($config, 'table');
 
         return new DbalMetadataRepository(
-            $container->get(Connection::class),
+            $container->get(self::SERVICE_CONNECTION),
             $config['table']
         );
     }

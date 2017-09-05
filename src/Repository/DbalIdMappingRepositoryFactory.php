@@ -12,6 +12,8 @@ use Webmozart\Assert\Assert;
  */
 final class DbalIdMappingRepositoryFactory
 {
+    const SERVICE_CONNECTION = 'DbalIdMappingRepository_Connection';
+
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->get('config')['dashboard-migrations']['repositories'][DbalIdMappingRepository::class];
@@ -19,7 +21,7 @@ final class DbalIdMappingRepositoryFactory
         Assert::keyExists($config, 'table');
 
         return new DbalIdMappingRepository(
-            $container->get(Connection::class),
+            $container->get(self::SERVICE_CONNECTION),
             $config['table']
         );
     }

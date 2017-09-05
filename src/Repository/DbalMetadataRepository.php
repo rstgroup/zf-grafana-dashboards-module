@@ -9,8 +9,6 @@ use Doctrine\DBAL\Driver\Statement;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadata;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository;
-use RstGroup\ZfGrafanaModule\Dashboard\Dashboard;
-use Webmozart\Assert\Assert;
 
 /**
  * @codeCoverageIgnore tested by integration tests
