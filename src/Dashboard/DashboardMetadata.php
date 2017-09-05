@@ -8,19 +8,22 @@ use Webmozart\Assert\Assert;
 
 final class DashboardMetadata
 {
+    /** @var DashboardId */
     private $dashboardId;
-    private $grafanaId;
+    /** @var int */
     private $version;
+    /** @var int|null */
+    private $grafanaId;
+    /** @var int|null */
     private $schemaVersion;
 
     /**
      * @param DashboardId $dashboardId
-     * @param int         $grafanaId
      * @param int         $version
+     * @param int|null    $grafanaId
      * @param int|null    $schemaVersion
-     * @internal param DashboardId $remoteId
      */
-    public function __construct(DashboardId $dashboardId, $grafanaId, $version, $schemaVersion = null)
+    public function __construct(DashboardId $dashboardId, $version, $grafanaId = null, $schemaVersion = null)
     {
         $this->dashboardId   = $dashboardId;
         $this->grafanaId     = $grafanaId;
@@ -29,7 +32,7 @@ final class DashboardMetadata
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getGrafanaId()
     {
@@ -70,8 +73,6 @@ final class DashboardMetadata
         $definition = $dashboard->getDefinition()->getDecodedDefinition();
 
         Assert::isArray($definition);
-        Assert::keyExists($definition, 'id');
-        Assert::integer($definition['id']);
         Assert::keyExists($definition, 'version');
         Assert::integer($definition['version']);
 
@@ -81,8 +82,8 @@ final class DashboardMetadata
 
         return new self(
             $dashboard->getId(),
-            $definition['id'],
             $definition['version'],
+            isset($definition['id']) ? (int)$definition['id'] : null,
             isset($definition['schemaVersion']) ? (int)$definition['schemaVersion'] : null
         );
     }

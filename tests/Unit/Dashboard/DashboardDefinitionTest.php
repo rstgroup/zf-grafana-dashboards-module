@@ -35,7 +35,7 @@ class DashboardDefinitionTest extends TestCase
         $definition = new DashboardDefinition('{"id":null,"title":"abcd"}');
 
         // given: metadata to apply:
-        $metadata = new DashboardMetadata(new DashboardSlug('xxx'), 1, 2, 3);
+        $metadata = new DashboardMetadata(new DashboardSlug('xxx'), 2, 1, 3);
 
         // when
         $newDefinition = $definition->withMetadata($metadata);

@@ -81,10 +81,7 @@ class GrafanaDashboardMapperTest extends TestCase
 
         // given: stored metadata
         $dashboardsMetadata = new DashboardMetadata(
-            $remoteDashboardId,
-            555,
-            22,
-            1
+            $remoteDashboardId, 22, 555, 1
         );
 
         // given: mocked requirements

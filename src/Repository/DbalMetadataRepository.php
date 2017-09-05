@@ -81,10 +81,7 @@ final class DbalMetadataRepository implements DashboardMetadataRepository
             $row = $queryStatement->fetch(\PDO::FETCH_ASSOC);
 
             return new DashboardMetadata(
-                $remoteId,
-                (int)$row[self::FIELD_GRAFANA_ID],
-                (int)$row[self::FIELD_DASHBOARD_VERSION],
-                (int)$row[self::FIELD_DASHBOARD_SCHEMA_VERSION] ?: null
+                $remoteId, (int)$row[self::FIELD_DASHBOARD_VERSION], (int)$row[self::FIELD_GRAFANA_ID], (int)$row[self::FIELD_DASHBOARD_SCHEMA_VERSION] ?: null
             );
         } else {
             return null;
