@@ -26,9 +26,6 @@ final class DbalMetadataRepository implements DashboardMetadataRepository
     /** @var string */
     private $table;
 
-    /** @var Statement */
-    private $insertStatement;
-
     /**
      * @param Connection $db
      * @param string     $table
@@ -37,15 +34,6 @@ final class DbalMetadataRepository implements DashboardMetadataRepository
     {
         $this->db    = $db;
         $this->table = $table;
-
-        $this->insertStatement = $this->db->prepare(sprintf(
-            'INSERT INTO %s (`%s`, `%s`, `%s`, `%s`) VALUES (:d_id, :g_id, :d_version, :d_schema_version)',
-            $this->table,
-            self::FIELD_DASHBOARD_ID,
-            self::FIELD_GRAFANA_ID,
-            self::FIELD_DASHBOARD_VERSION,
-            self::FIELD_DASHBOARD_SCHEMA_VERSION
-        ));
     }
 
     /**
@@ -53,14 +41,23 @@ final class DbalMetadataRepository implements DashboardMetadataRepository
      */
     public function saveMetadata(DashboardMetadata $metadata)
     {
-        if (!$this->insertStatement->execute([
+        $insertStatement = $this->db->prepare(sprintf(
+            'INSERT INTO %s (`%s`, `%s`, `%s`, `%s`) VALUES (:d_id, :g_id, :d_version, :d_schema_version)',
+            $this->table,
+            self::FIELD_DASHBOARD_ID,
+            self::FIELD_GRAFANA_ID,
+            self::FIELD_DASHBOARD_VERSION,
+            self::FIELD_DASHBOARD_SCHEMA_VERSION
+        ));
+
+        if (!$insertStatement->execute([
             'd_id'             => $metadata->getDashboardId()->getId(),
             'g_id'             => $metadata->getGrafanaId(),
             'd_version'        => $metadata->getVersion(),
             'd_schema_version' => $metadata->getSchemaVersion(),
         ])
         ) {
-            throw new \RuntimeException(sprintf("Could not save to DB. Reason: %s", implode("\n", $this->insertStatement->errorInfo())));
+            throw new \RuntimeException(sprintf("Could not save to DB. Reason: %s", implode("\n", $insertStatement->errorInfo())));
         }
     }
 
