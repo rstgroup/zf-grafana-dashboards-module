@@ -6,9 +6,10 @@ namespace RstGroup\ZfGrafanaModule\Repository;
 
 use Doctrine\DBAL\Driver\Connection;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
+use RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdMappingRepository;
 use RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdRepoToRepoMapper;
 
-final class DbalIdMappingRepository implements DashboardIdRepoToRepoMapper
+final class DbalIdMappingRepository implements DashboardIdRepoToRepoMapper, DashboardIdMappingRepository
 {
     const FIELD_LOCAL_ID = 'local_id';
     const FIELD_REMOTE_ID = 'remote_id';
