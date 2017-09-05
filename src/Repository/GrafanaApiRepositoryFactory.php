@@ -5,6 +5,7 @@ namespace RstGroup\ZfGrafanaModule\Repository;
 
 use Psr\Container\ContainerInterface;
 use RstGroup\ZfGrafanaModule\DashboardMapping\DashboardToDashboardMapper;
+use RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapper;
 use RstGroup\ZfGrafanaModule\Grafana\RequestHelper;
 use RstGroup\ZfGrafanaModule\Grafana\ResponseHelper;
 use Webmozart\Assert\Assert;
@@ -38,7 +39,7 @@ final class GrafanaApiRepositoryFactory
                 $config['api-key']
             ),
             new ResponseHelper(),
-            $container->get(DashboardToDashboardMapper::class)
+            $container->get(GrafanaDashboardMapper::class)
         );
     }
 }

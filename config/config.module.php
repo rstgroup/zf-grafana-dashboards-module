@@ -28,10 +28,13 @@ return [
             \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class               => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class => \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProviderFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class                        => \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::class,
+            \RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapper::class                         => \RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapperFactory::class,
         ],
         'aliases'   => [
-            \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class  => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
-            \RstGroup\ZfGrafanaModule\Controller\Helper\DashboardIdsProvider::class => \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class,
+            \RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository::class        => \RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepository::class,
+            \RstGroup\ZfGrafanaModule\DashboardMapping\DashboardToDashboardMapper::class  => \RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapper::class,
+            \RstGroup\ZfGrafanaModule\Controller\Helper\DashboardIdsProvider::class       => \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class,
+            \RstGroup\ZfGrafanaModule\DashboardMapping\DashboardIdRepoToRepoMapper::class => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class,
         ],
     ],
     'dashboard-migrations' => [
