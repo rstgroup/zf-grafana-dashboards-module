@@ -57,8 +57,7 @@ class RequestHelperTest extends TestCase
     {
         // given: dashboard
         $dashboard = new Dashboard(
-            new DashboardDefinition('{"id":null,"title":"Test dashboard"}'),
-            new DashboardSlug('dash')
+            new DashboardDefinition('{"id":null,"title":"Test dashboard"}')
         );
 
         // when: request is created
@@ -71,7 +70,10 @@ class RequestHelperTest extends TestCase
         $this->assertSame('POST', $request->getMethod());
         $this->assertSame('http://grafana/api/dashboards/db', (string)$request->getUri());
         $this->assertArraySubset(
-            ['dashboard' => ['id' => null, 'title' => 'Test dashboard']],
+            [
+                'dashboard' => ['id' => null, 'title' => 'Test dashboard'],
+                'overwrite' => false,
+            ],
             json_decode((string)$request->getBody(), true)
         );
 
@@ -98,9 +100,15 @@ class RequestHelperTest extends TestCase
         // then: request has crucial parameters
         $this->assertSame('POST', $request->getMethod());
         $this->assertSame('http://grafana/api/dashboards/db', (string)$request->getUri());
+
+        // then: request body has crucial data
+        $body = json_decode((string)$request->getBody(), true);
         $this->assertArraySubset(
-            ['dashboard' => ['id' => 22, 'title' => 'Test dashboard']],
-            json_decode((string)$request->getBody(), true)
+            [
+                'dashboard' => ['id' => 22, 'title' => 'Test dashboard'],
+                'overwrite' => true,
+            ],
+            $body
         );
 
         // then: request has set headers:

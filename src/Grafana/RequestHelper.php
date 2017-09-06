@@ -62,7 +62,8 @@ class RequestHelper
                 $this->getAuthorizationHeaders()
             ),
             json_encode([
-                'dashboard' => $dashboard->getDefinition()->getDecodedDefinition()
+                'dashboard' => $dashboard->getDefinition()->getDecodedDefinition(),
+                'overwrite' => $dashboard->getId() ? true : false,
             ])
         );
     }
