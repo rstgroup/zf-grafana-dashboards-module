@@ -40,7 +40,7 @@ final class DbalIdMappingRepository implements DashboardIdRepoToRepoMapper, Dash
 
         $result = $insertStatement->execute([
             'local_id'  => $sourceId->getId(),
-            'target_id' => $targetId->getId(),
+            'remote_id' => $targetId->getId(),
         ]);
 
         if (!$result) {
