@@ -52,7 +52,9 @@ final class GrafanaApiRepository implements DashboardRepository
         $request  = $this->requestHelper->createCreateOrUpdateDashboardRequest($dashboard);
         $response = $this->httpClient->sendRequest($request);
 
-        return $this->responseHelper->parseResponseForCreatingDashboard($response, $dashboard);
+        $savedDashboard = $this->responseHelper->parseResponseForCreatingDashboard($response, $dashboard);
+
+        return $this->load($savedDashboard->getId());
     }
 
     /**

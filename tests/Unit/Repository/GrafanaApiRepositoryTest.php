@@ -12,6 +12,7 @@ use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Psr\Http\Message\RequestInterface;
 use RstGroup\ZfGrafanaModule\Dashboard\Dashboard;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardDefinition;
+use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadata;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 use RstGroup\ZfGrafanaModule\Grafana\RequestHelper;
 use RstGroup\ZfGrafanaModule\Grafana\ResponseHelper;
@@ -122,7 +123,7 @@ class GrafanaApiRepositoryTest extends TestCase
         );
 
         // expect: http client called
-        $this->httpClientMock->expects($this->once())
+        $this->httpClientMock->expects($this->at(0))
             ->method('sendRequest')
             ->with(
                 $this->callback(function (RequestInterface $request) use ($definitionAsJson) {
@@ -142,6 +143,24 @@ class GrafanaApiRepositoryTest extends TestCase
                 200, [], '{"success":"success","version":1,"slug":"my-dashboard"}'
             ));
 
+        $this->httpClientMock->expects($this->at(1))
+            ->method('sendRequest')
+            ->with(
+                $this->callback(function (RequestInterface $request) use ($definitionAsJson) {
+                    // make sure it's POST,
+                    $this->assertSame('GET', $request->getMethod());
+                    // make sure URL is valid
+                    $this->assertSame($this->grafanaApiUri . '/dashboards/db/my-dashboard', (string)$request->getUri());
+                    // make sure the API KEY is passed as Authorization
+                    $this->assertAuthorization($this->grafanaApiKey, $request);
+
+                    return true;
+                })
+            )
+            ->willReturn(new Response(
+                200, [], sprintf('{"meta":{"slug":"my-dashboard"},"dashboard":{"id":4455,"rows":[],"version":1,"schemaVersion":1}}', $definitionAsJson)
+            ));
+
         // when: request is created
         $savedDashboard = $apiRepo->save($dashboard);
 
@@ -149,8 +168,14 @@ class GrafanaApiRepositoryTest extends TestCase
         $this->assertInstanceOf(Dashboard::class, $savedDashboard);
 
         // then: dashboard has crucial params
-        $this->assertTrue($savedDashboard->getDefinition()->isEqual(new DashboardDefinition('{"id":null,"rows":[],"version":1}')));
+        $this->assertTrue($savedDashboard->getDefinition()->isEqual(
+            new DashboardDefinition('{"id":4455,"rows":[]}')
+        ));
         $this->assertEquals(new DashboardSlug('my-dashboard'), $savedDashboard->getId());
+
+        // then: dashboard has metadata stored
+        $this->assertSame(4455, $savedDashboard->getDefinition()->getDecodedDefinition()['id']);
+        $this->assertSame(1, $savedDashboard->getDefinition()->getDecodedDefinition()['schemaVersion']);
     }
 
     private function assertAuthorization($expectedApiKey, RequestInterface $actualRequest)
