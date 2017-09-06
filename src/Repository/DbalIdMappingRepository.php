@@ -58,7 +58,7 @@ final class DbalIdMappingRepository implements DashboardIdRepoToRepoMapper, Dash
             'SELECT `%s` FROM `%s` WHERE `%s` = :l_id LIMIT 1',
             self::FIELD_REMOTE_ID,
             $this->table,
-            self::FIELD_REMOTE_ID
+            self::FIELD_LOCAL_ID
         ));
 
         $queryStatement->execute(['l_id' => $id->getId()]);
