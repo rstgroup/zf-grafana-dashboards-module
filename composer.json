@@ -1,6 +1,7 @@
 {
     "name": "rstgroup/zf-grafana-module",
     "description": "Integration with Grafana API.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Artur Wolny",
