@@ -52,6 +52,9 @@ return [
                 'url'     => 'http://rstgroup.grafana.com/api',
                 'api-key' => null,
             ],
+            \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class       => [
+                'table' => 'dashboard_id_mapping',
+            ],
         ],
         'ids-providers'         => [
             \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class => [
