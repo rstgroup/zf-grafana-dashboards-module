@@ -41,7 +41,7 @@
         "unit-tests": "phpunit",
         "integration-tests-local": [
             "docker-compose up -d",
-            "phpunit -c phpunit-integration.xml",
+            "docker-compose run --rm php php ./vendor/bin/phpunit -c phpunit-integration.xml",
             "docker-compose down"
         ]
     }

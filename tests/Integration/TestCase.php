@@ -4,14 +4,12 @@
 namespace RstGroup\ZfGrafanaModule\Tests\Integration;
 
 
+use Doctrine\DBAL\Driver\PDOConnection;
 use PHPUnit_Extensions_Database_DB_IDatabaseConnection;
 
 abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
 {
-    const SCHEMA = 'test';
-
-
-    /** @var \PDO */
+    /** @var PDOConnection */
     static $PDO;
 
     /** @var  array */
@@ -30,7 +28,7 @@ abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
     protected function getConnection()
     {
         return $this->createDefaultDBConnection(
-            static::getPDO(), static::SCHEMA
+            static::getPDO(), self::$config['db']['schema']
         );
     }
 
@@ -41,13 +39,13 @@ abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
 
     public function setUp()
     {
-        foreach(static::getTablesDefinition() as $tableSql) {
+        foreach(static::getTablesDefinition() as $tableName => $tableSql) {
             $stmt = $this->getConnection()->getConnection()->prepare(
                 $tableSql
             );
 
             // make sure table is created
-            $this->assertTrue($stmt->execute());
+            $this->assertTrue($stmt->execute(), sprintf('Could not create table %s.', $tableName));
         }
 
     }
@@ -60,8 +58,16 @@ abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
             );
 
             // make sure table is removed
-            $this->assertTrue($stmt->execute());
+            $this->assertTrue($stmt->execute(), sprintf('Could not drop table %s', $tableName));
         }
+    }
+
+    /**
+     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     */
+    public function getDataSet()
+    {
+        return new \PHPUnit_Extensions_Database_DataSet_ArrayDataSet([]);
     }
 
     public static function getConfig()
@@ -70,14 +76,14 @@ abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @return \PDO
+     * @return PDOConnection
      */
     private static function getPDO()
     {
         if (!self::$PDO) {
             $config = self::getConfig()['db'];
 
-            self::$PDO = new \PDO($config['dsn'], $config['user'], $config['password']);
+            self::$PDO = new PDOConnection($config['dsn'], $config['user'], $config['password']);
         }
 
         return self::$PDO;

@@ -1,7 +1,17 @@
 version: '3'
 services:
   php:
-    image: php:5.6-alpine
+    image: dev-docker-registry0.km.rst.com.pl:5000/libraries/php:5.6
+    environment:
+      INTEGRATION_DB_HOST: 'mysql'
+      INTEGRATION_DB_PASSWORD: 'travis'
+      INTEGRATION_DB_USER: 'travis'
+      INTEGRATION_DB_NAME: 'test'
+    volumes:
+      - '.:/app'
+    working_dir: '/app'
+    links:
+      - mysql
   mysql:
     image: mysql/mysql-server:5.5
     environment:
@@ -9,5 +19,7 @@ services:
       MYSQL_ROOT_PASSWORD: ''
       MYSQL_DATABASE: 'test'
       MYSQL_USER: 'travis'
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: 'travis'
+    expose:
+      - '3306'
 

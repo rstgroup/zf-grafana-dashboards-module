@@ -5,7 +5,6 @@ namespace RstGroup\ZfGrafanaModule\Repository;
 
 
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\Statement;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardId;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadata;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadataRepository;
@@ -42,7 +41,8 @@ final class DbalMetadataRepository implements DashboardMetadataRepository
     public function saveMetadata(DashboardMetadata $metadata)
     {
         $insertStatement = $this->db->prepare(sprintf(
-            'INSERT INTO %s (`%s`, `%s`, `%s`, `%s`) VALUES (:d_id, :g_id, :d_version, :d_schema_version)',
+            'INSERT INTO %s (`%s`, `%s`, `%s`, `%s`) VALUES (:d_id, :g_id, :d_version, :d_schema_version)' .
+            ' ON DUPLICATE KEY UPDATE `%3$s` = :g_id, `%4$s` = :d_version, `%5$s` = :d_schema_version',
             $this->table,
             self::FIELD_DASHBOARD_ID,
             self::FIELD_GRAFANA_ID,
