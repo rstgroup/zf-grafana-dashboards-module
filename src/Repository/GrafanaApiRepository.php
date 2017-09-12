@@ -47,21 +47,21 @@ final class GrafanaApiRepository implements DashboardRepository
      * @param Dashboard $dashboard
      * @return Dashboard
      */
-    public function save(Dashboard $dashboard)
+    public function saveDashboard(Dashboard $dashboard)
     {
         $request  = $this->requestHelper->createCreateOrUpdateDashboardRequest($dashboard);
         $response = $this->httpClient->sendRequest($request);
 
         $savedDashboard = $this->responseHelper->parseResponseForCreatingDashboard($response, $dashboard);
 
-        return $this->load($savedDashboard->getId());
+        return $this->loadDashboard($savedDashboard->getId());
     }
 
     /**
      * @param DashboardId $id
      * @return Dashboard
      */
-    public function load(DashboardId $id)
+    public function loadDashboard(DashboardId $id)
     {
         Assert::isInstanceOf($id, DashboardSlug::class);
 
@@ -74,7 +74,7 @@ final class GrafanaApiRepository implements DashboardRepository
     /**
      * @return DashboardToDashboardMapper
      */
-    public function getMapper()
+    public function getDashboardMapper()
     {
         return $this->dashboardToDashboardMapper;
     }

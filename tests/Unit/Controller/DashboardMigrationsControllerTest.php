@@ -52,7 +52,7 @@ class DashboardMigrationsControllerTest extends TestCase
         $mappingRepository  = new InMemoryMappingRepository();
 
         // given: mock the target repository
-        $targetRepository->method('getMapper')->willReturn(
+        $targetRepository->method('getDashboardMapper')->willReturn(
             new DummyDashboardMapper()
         );
 
@@ -66,10 +66,10 @@ class DashboardMigrationsControllerTest extends TestCase
         );
 
         // expect: controller will fetch dashboard by its ID
-        $sourceRepository->expects($this->once())->method('load')->with($dashboard->getId())->willReturn($dashboard);
+        $sourceRepository->expects($this->once())->method('loadDashboard')->with($dashboard->getId())->willReturn($dashboard);
 
         // expect: controller will try to push dashboard straight to remote repository
-        $targetRepository->expects($this->once())->method('save')->willReturn($savedDashboard);
+        $targetRepository->expects($this->once())->method('saveDashboard')->willReturn($savedDashboard);
 
         // when
         $controller->migrateAction();
@@ -159,20 +159,20 @@ class DashboardMigrationsControllerTest extends TestCase
         );
 
         // given: mock the target repository
-        $targetRepository->expects($this->any())->method('getMapper')->willReturn($targetRepositoryMapper);
+        $targetRepository->expects($this->any())->method('getDashboardMapper')->willReturn($targetRepositoryMapper);
 
         // expect: controller will fetch dashboard by its ID
-        $sourceRepository->expects($this->once())->method('load')->with($dashboard->getId())->willReturn($dashboard);
+        $sourceRepository->expects($this->once())->method('loadDashboard')->with($dashboard->getId())->willReturn($dashboard);
 
         // expect: target repository's mapper will map local dashboard to remote format
         $targetRepositoryMapper->expects($this->atLeastOnce())->method('map')->with($dashboard)->willReturn($dashboard);
 
         // expect: controller will fetch remote dashboard
-        $targetRepository->expects($this->once())->method('load')->willReturn($remoteDashboard);
+        $targetRepository->expects($this->once())->method('loadDashboard')->willReturn($remoteDashboard);
 
 
         // expect: controller will try to push dashboard straight to remote repository
-        $targetRepository->expects($this->once())->method('save')
+        $targetRepository->expects($this->once())->method('saveDashboard')
             ->with($dashboard)
             ->willReturn($savedDashboard);
 
@@ -265,20 +265,20 @@ class DashboardMigrationsControllerTest extends TestCase
         );
 
         // given: mock the target repository
-        $targetRepository->expects($this->any())->method('getMapper')->willReturn($targetRepositoryMapper);
+        $targetRepository->expects($this->any())->method('getDashboardMapper')->willReturn($targetRepositoryMapper);
 
         // expect: controller will fetch dashboard by its ID
-        $sourceRepository->expects($this->once())->method('load')->with($dashboard->getId())->willReturn($dashboard);
+        $sourceRepository->expects($this->once())->method('loadDashboard')->with($dashboard->getId())->willReturn($dashboard);
 
         // expect: target repository's mapper will map local dashboard to remote format
         $targetRepositoryMapper->expects($this->atLeastOnce())->method('map')->with($dashboard)->willReturn($dashboard);
 
         // expect: controller will fetch remote dashboard
-        $targetRepository->expects($this->once())->method('load')->willReturn($remoteDashboard);
+        $targetRepository->expects($this->once())->method('loadDashboard')->willReturn($remoteDashboard);
 
 
         // expect: controller will try to push dashboard straight to remote repository
-        $targetRepository->expects($this->once())->method('save')
+        $targetRepository->expects($this->once())->method('saveDashboard')
             ->with($dashboard)
             ->willReturn($savedDashboard);
 

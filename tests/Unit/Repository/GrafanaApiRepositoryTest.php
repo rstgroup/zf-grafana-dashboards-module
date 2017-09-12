@@ -67,7 +67,7 @@ class GrafanaApiRepositoryTest extends TestCase
         );
 
         // when
-        $returnMapper = $apiRepo->getMapper();
+        $returnMapper = $apiRepo->getDashboardMapper();
 
         // then
         $this->assertSame($mapper, $returnMapper);
@@ -96,7 +96,7 @@ class GrafanaApiRepositoryTest extends TestCase
             ));
 
         // when: request is created
-        $dashboard = $apiRepo->load($slug);
+        $dashboard = $apiRepo->loadDashboard($slug);
 
         // then: dashboard is created
         $this->assertInstanceOf(Dashboard::class, $dashboard);
@@ -162,7 +162,7 @@ class GrafanaApiRepositoryTest extends TestCase
             ));
 
         // when: request is created
-        $savedDashboard = $apiRepo->save($dashboard);
+        $savedDashboard = $apiRepo->saveDashboard($dashboard);
 
         // then: dashboard is created
         $this->assertInstanceOf(Dashboard::class, $savedDashboard);

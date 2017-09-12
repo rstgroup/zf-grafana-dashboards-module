@@ -26,7 +26,7 @@ final class FilesystemDirectoryRepository implements DashboardRepository
         $this->directory = $directory;
     }
 
-    public function save(Dashboard $dashboard)
+    public function saveDashboard(Dashboard $dashboard)
     {
         throw new \BadMethodCallException('Not implemented! This repository is ReadOnly.');
     }
@@ -36,7 +36,7 @@ final class FilesystemDirectoryRepository implements DashboardRepository
      * @return Dashboard
      * @throws \InvalidArgumentException
      */
-    public function load(DashboardId $id)
+    public function loadDashboard(DashboardId $id)
     {
         Assert::isInstanceOf($id, DashboardFilename::class);
         $filename = $id->getId();

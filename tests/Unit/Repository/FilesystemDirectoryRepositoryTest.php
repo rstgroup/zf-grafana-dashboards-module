@@ -25,7 +25,7 @@ class FilesystemDirectoryRepositoryTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         // when
-        $repository->save($dashboard);
+        $repository->saveDashboard($dashboard);
     }
 
     public function testRepositoryCanReadDashboardFromFile()
@@ -42,7 +42,7 @@ class FilesystemDirectoryRepositoryTest extends TestCase
         );
 
         // when
-        $dashboard = $repository->load($dashboardId);
+        $dashboard = $repository->loadDashboard($dashboardId);
 
         // then
         $this->assertInstanceOf(Dashboard::class, $dashboard);

@@ -60,7 +60,7 @@ final class DashboardMigrationsController extends AbstractConsoleController
     {
         // 1. load dashboards to migrate
         $dashboards = array_map(function (DashboardId $id) {
-            return $this->sourceRepository->load($id);
+            return $this->sourceRepository->loadDashboard($id);
         }, $this->dashboardsIds);
 
         // 2. send dashboards to remote repository one by one
@@ -72,11 +72,11 @@ final class DashboardMigrationsController extends AbstractConsoleController
      */
     private function migrateSingleDashboard(Dashboard $dashboard)
     {
-        $dashboardToSync = $this->remoteRepository->getMapper()->map($dashboard);
+        $dashboardToSync = $this->remoteRepository->getDashboardMapper()->map($dashboard);
         $remoteDashboard = null;
 
         if ($dashboardToSync->getId() !== null) {
-            $remoteDashboard = $this->remoteRepository->load($dashboardToSync->getId());
+            $remoteDashboard = $this->remoteRepository->loadDashboard($dashboardToSync->getId());
         }
 
         if (
@@ -86,7 +86,7 @@ final class DashboardMigrationsController extends AbstractConsoleController
             !$dashboardToSync->getDefinition()->isEqual($remoteDashboard->getDefinition())
         ) {
             // next case - need to update remote dashboard
-            $updatedDashboard = $this->remoteRepository->save($dashboardToSync);
+            $updatedDashboard = $this->remoteRepository->saveDashboard($dashboardToSync);
 
             // ..and pass updated metadata to local repository
             $metadata = DashboardMetadata::createFromDashboard($updatedDashboard);

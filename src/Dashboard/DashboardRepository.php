@@ -12,16 +12,16 @@ interface DashboardRepository
      * @param Dashboard $dashboard
      * @return Dashboard
      */
-    public function save(Dashboard $dashboard);
+    public function saveDashboard(Dashboard $dashboard);
 
     /**
      * @param DashboardId $id
      * @return Dashboard
      */
-    public function load(DashboardId $id);
+    public function loadDashboard(DashboardId $id);
 
     /**
      * @return DashboardToDashboardMapper
      */
-    public function getMapper();
+    public function getDashboardMapper();
 }

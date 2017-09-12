@@ -17,7 +17,7 @@ trait DummyDashboardMapperTrait
     /**
      * @return DashboardToDashboardMapper
      */
-    public function getMapper()
+    public function getDashboardMapper()
     {
         if (!$this->dummyMapper) {
             $this->dummyMapper = new DummyDashboardMapper();
