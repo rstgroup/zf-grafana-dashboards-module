@@ -27,7 +27,7 @@ return [
             \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class                     => \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class               => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProvider::class => \RstGroup\ZfGrafanaModule\Controller\Helper\DirectoryListingDashboardIdsProviderFactory::class,
-            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class                        => \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\GrafanaApi\DashboardApiRepository::class           => \RstGroup\ZfGrafanaModule\Repository\GrafanaApi\DashboardApiRepositoryFactory::class,
             \RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapper::class                         => \RstGroup\ZfGrafanaModule\Grafana\GrafanaDashboardMapperFactory::class,
         ],
         'aliases'   => [
@@ -45,14 +45,14 @@ return [
             ],
         ],
         'repositories'          => [
-            \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class => [
+            \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class     => [
                 'path' => 'build/dashboards',
             ],
-            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class          => [
+            \RstGroup\ZfGrafanaModule\Repository\GrafanaApi\DashboardApiRepository::class => [
                 'url'     => 'http://rstgroup.grafana.com/api',
                 'api-key' => null,
             ],
-            \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class       => [
+            \RstGroup\ZfGrafanaModule\Repository\DbalIdMappingRepository::class           => [
                 'table' => 'dashboard_id_mapping',
             ],
         ],
@@ -65,7 +65,7 @@ return [
             'service' => \RstGroup\ZfGrafanaModule\Repository\FilesystemDirectoryRepository::class,
         ],
         'target-repository'     => [
-            'service' => \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class,
+            'service' => \RstGroup\ZfGrafanaModule\Repository\GrafanaApi\DashboardApiRepository::class,
         ],
     ],
 ];

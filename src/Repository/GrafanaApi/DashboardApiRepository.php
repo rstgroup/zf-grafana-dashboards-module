@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RstGroup\ZfGrafanaModule\Repository;
+namespace RstGroup\ZfGrafanaModule\Repository\GrafanaApi;
 
 
 use Http\Client\HttpClient;
@@ -14,7 +14,7 @@ use RstGroup\ZfGrafanaModule\Grafana\RequestHelper;
 use RstGroup\ZfGrafanaModule\Grafana\ResponseHelper;
 use Webmozart\Assert\Assert;
 
-final class GrafanaApiRepository implements DashboardRepository
+final class DashboardApiRepository implements DashboardRepository
 {
     /** @var HttpClient */
     private $httpClient;

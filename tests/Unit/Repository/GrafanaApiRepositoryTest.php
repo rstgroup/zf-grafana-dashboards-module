@@ -16,7 +16,7 @@ use RstGroup\ZfGrafanaModule\Dashboard\DashboardMetadata;
 use RstGroup\ZfGrafanaModule\Dashboard\DashboardSlug;
 use RstGroup\ZfGrafanaModule\Grafana\RequestHelper;
 use RstGroup\ZfGrafanaModule\Grafana\ResponseHelper;
-use RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository;
+use RstGroup\ZfGrafanaModule\Repository\GrafanaApi\DashboardApiRepository;
 use PHPUnit\Framework\TestCase;
 use RstGroup\ZfGrafanaModule\Repository\Mapper\DummyDashboardMapper;
 
@@ -59,7 +59,7 @@ class GrafanaApiRepositoryTest extends TestCase
         $mapper = new DummyDashboardMapper();
 
         // given: grafana repository
-        $apiRepo = new GrafanaApiRepository(
+        $apiRepo = new DashboardApiRepository(
             $this->httpClientMock,
             $this->grafanaRequestHelper,
             $this->grafanaResponseHelper,
@@ -79,7 +79,7 @@ class GrafanaApiRepositoryTest extends TestCase
         $slug = new DashboardSlug('test-title');
 
         // given: grafana repository
-        $apiRepo = new GrafanaApiRepository(
+        $apiRepo = new DashboardApiRepository(
             $this->httpClientMock,
             $this->grafanaRequestHelper,
             $this->grafanaResponseHelper,
@@ -115,7 +115,7 @@ class GrafanaApiRepositoryTest extends TestCase
         $dashboard        = new Dashboard(new DashboardDefinition($definitionAsJson));
 
         // given: grafana repository
-        $apiRepo = new GrafanaApiRepository(
+        $apiRepo = new DashboardApiRepository(
             $this->httpClientMock,
             $this->grafanaRequestHelper,
             $this->grafanaResponseHelper,

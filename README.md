@@ -19,9 +19,9 @@ return [
 
 The last step is providing database connection and HTTP client to allow the library to communicate with other services.
 Use aliasing functionality of Zend's Service Manager to define:
-* `\RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::HTTP_CLIENT_SERVICE` <br />
+* `\RstGroup\ZfGrafanaModule\Repository\DashboardApiRepositoryFactory::HTTP_CLIENT_SERVICE` <br />
     HTTP client that implements `Http\Client\HttpClient` interface 
-* `\RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::REQUEST_FACTORY_SERVICE` <br />
+* `\RstGroup\ZfGrafanaModule\Repository\DashboardApiRepositoryFactory::REQUEST_FACTORY_SERVICE` <br />
     request factory used to create HTTP requests
 * `\RstGroup\ZfGrafanaModule\Repository\DbalMetadataRepositoryFactory::SERVICE_CONNECTION` <br />
     Doctrine DBAL Connection to database where the dashboard's metadata will be stored
@@ -64,7 +64,7 @@ return [
 
 It's also possible to store dashboard definitions elsewhere. To do it, you need to do two things:
  
-* Implement your own `DashboardRepository`, define it in Zend's Service Manager and configure module to use it:
+* Implement your own `DashboardApiRepository`, define it in Zend's Service Manager and configure module to use it:
  
     ```php
     return [
@@ -103,7 +103,7 @@ configuration via config files (or, better, in Consul, if your app can fetch con
 return [
     'dashboard-migrations' => [
         'repositories' => [
-            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepository::class => [
+            \RstGroup\ZfGrafanaModule\Repository\DashboardApiRepository::class => [
                 'url'     => 'http://url.to.grafana.com/api',
                 'api-key' => 'grafana-api-key',
             ],
@@ -121,8 +121,8 @@ You should pass those in you app's configuration, aliasing predefined service na
 return [
     'service_manager' => [
         'aliases' => [
-            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::HTTP_CLIENT_SERVICE       => \Http\Adapter\Guzzle6\Client::class,
-            \RstGroup\ZfGrafanaModule\Repository\GrafanaApiRepositoryFactory::REQUEST_FACTORY_SERVICE => \Http\Message\MessageFactory\GuzzleMessageFactory::class,
+            \RstGroup\ZfGrafanaModule\Repository\DashboardApiRepositoryFactory::HTTP_CLIENT_SERVICE       => \Http\Adapter\Guzzle6\Client::class,
+            \RstGroup\ZfGrafanaModule\Repository\DashboardApiRepositoryFactory::REQUEST_FACTORY_SERVICE => \Http\Message\MessageFactory\GuzzleMessageFactory::class,
         ]
     ]
 ];
